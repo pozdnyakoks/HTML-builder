@@ -92,15 +92,13 @@ async function replaceInFile() {
 }
 
 async function getData() {
+  await fsPromises.rm(assetsCopyFolder, { recursive: true, force: true });
   await mkdir(assetsCopyFolder, { recursive: true });
-  for (const file of await fsPromises.readdir(assetsCopyFolder)) {
-    await fsPromises.unlink(path.join(assetsCopyFolder, file));
-  }
   await bundleCss()
   await copyAssets(assetsFolder, assetsCopyFolder);
   await replaceInFile();
 }
 
 
-
+mkdir(assetsCopyFolder, { recursive: true });
 getData()
